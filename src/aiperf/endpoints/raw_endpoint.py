@@ -47,3 +47,11 @@ class RawEndpoint(JMESPathResponseMixin, BaseEndpoint):
             f"has no raw_payload set. Use --input-type raw_payload or inputs_json "
             f"so the loader populates raw_payload on every turn."
         )
+
+    def populate_request_metrics(
+        self,
+        request_info: RequestInfo,
+        payload: dict[str, Any] | bytes,
+    ) -> None:
+        """Populate endpoint-specific request-side metadata before dispatch."""
+        return None

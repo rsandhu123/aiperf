@@ -129,6 +129,7 @@ class InferenceClient(AIPerfLifecycleMixin):
         # exception: the transport must receive the structured dict so it can
         # build the FormData. Pre-dumped bytes would be sent verbatim as JSON
         # and the server's form parser would reject them (422, prompt=null).
+        self.endpoint.populate_request_metrics(request_info=request_info, payload=formatted_payload)
         wire_payload: dict[str, Any] | bytes = formatted_payload
         if isinstance(formatted_payload, dict):
             encoded = orjson.dumps(formatted_payload)

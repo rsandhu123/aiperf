@@ -756,6 +756,9 @@ class MetricFlags(Flag):
     PRODUCES_TOKENS_ONLY = 1 << 2
     """Metrics that are only applicable when profiling an endpoint that produces tokens."""
 
+    TIME_SERIES_ONLY = 1 << 3
+    """Metrics that are only applicable to time series data."""
+
     LARGER_IS_BETTER = 1 << 4
     """Metrics that are better when the value is larger. By default, it is assumed that metrics are
     better when the value is smaller."""

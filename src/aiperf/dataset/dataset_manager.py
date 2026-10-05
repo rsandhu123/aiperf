@@ -582,11 +582,16 @@ class DatasetManager(ReplyClientMixin, BaseComponentService):
     def _is_rankings_endpoint(self, endpoint_type: str) -> bool:
         return "rankings" in endpoint_type.lower()
 
+    def _is_rpt_ts_endpoint(self, endpoint_type: str) -> bool:
+        return endpoint_type == "rpt_ts"
+
     def _load_synthetic_dataset(self) -> list[Conversation]:
         endpoint_type = self.run.cfg.endpoint.type
 
         if self._is_rankings_endpoint(endpoint_type):
             composer_type = ComposerType.SYNTHETIC_RANKINGS
+        elif self._is_rpt_ts_endpoint(endpoint_type):
+            composer_type = ComposerType.SYNTHETIC_RPT_TS
         else:
             composer_type = ComposerType.SYNTHETIC
 

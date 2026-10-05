@@ -12,7 +12,8 @@ used as building blocks inside dataset variants. Video configs live in
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Annotated, Self
+from typing import TYPE_CHECKING, Annotated, Self, Any
+
 
 import orjson
 from pydantic import (
@@ -21,6 +22,7 @@ from pydantic import (
     Field,
     field_validator,
     model_validator,
+    BaseModel
 )
 
 from aiperf.common.enums import (
@@ -695,3 +697,40 @@ class RankingsConfig(BaseConfig):
             "Each ranking request contains one query and multiple passages.",
         ),
     ]
+
+
+class RPTTimeSeriesConfig(BaseModel):
+    series_count: Any
+    input_length: Any
+    horizon: Any
+
+    # Per-series input configuration
+    include_timestamp: bool = False
+    timestamp_start: int = 1
+    timestamp_step: int = 1
+
+    past_covariates: dict[str, Any] | None = None
+    future_covariates: dict[str, Any] | None = None
+
+    # /predict options
+    rules: list[dict[str, Any]] | None = None
+
+    batch_size: int | None = Field(default=None, ge=1, le=512)
+
+    output_quantile: bool | None = None
+
+    point_forecast: str | None = None
+
+    quantile_levels: list[float] | None = None
+
+    clip_min: float | None = None
+    clip_max: float | None = None
+
+    confidence_interval: float | None = None
+
+    cross_learning: bool | None = None
+    enhanced_forecast: bool | None = None
+
+    hierarchical_labels: (list[dict[str, str]] | None) = None
+
+    hierarchical_levels: (list[str | None] | None) = None

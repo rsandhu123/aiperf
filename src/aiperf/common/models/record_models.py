@@ -1043,6 +1043,32 @@ class RecordContext(AIPerfBaseModel):
         "Pairs with ``cache_bust_marker`` for raw-JSONL provenance.",
     )
 
+    # --- Time-series workload metric inputs
+
+    series_count: int | None = Field(
+        default=None, ge=0,
+        description=(
+            "Number of time series contained in the inference request. "
+            "Populated for time-series endpoints such as RPT-TS."
+        ),
+    )
+
+    input_timepoints: int | None = Field(
+        default=None, ge=0,
+        description=(
+            "Number of historical target observations supplied in the "
+            "time-series inference request."
+        ),
+    )
+
+    forecast_timepoints: int | None = Field(
+        default=None, ge=0,
+        description=(
+            "Number of future target observations requested from the "
+            "time-series model."
+        ),
+    )
+
 
 class RequestInfo(RecordContext):
     """Full request info used Worker-side for transport dispatch.

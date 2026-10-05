@@ -256,6 +256,14 @@ class SyntheticDataset(SystemPromptMixin):
         ),
     ]
 
+    rpt_ts: Annotated[
+        RPTTimeSeriesConfig | None,
+        Field(
+            default=None,
+            description="Synthetic SAP RPT time-series workload configuration.",
+        ),
+    ]
+
     @model_validator(mode="before")
     @classmethod
     def _hoist_isl_osl_shortcuts(cls, data: Any) -> Any:

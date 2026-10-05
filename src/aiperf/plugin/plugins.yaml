@@ -496,6 +496,18 @@ endpoint:
       supports_images: true
       supports_videos: true
       metrics_title: LLM Metrics
+  
+  rpt_ts:
+    class: aiperf.endpoints.rpt_ts:RPTTimeSeriesEndpoint
+    description: |
+      SAP Time Series Foundation Model endpoint. Replays complete /ts/predict
+      request payloads and parses structured forecasting responses.
+    metadata:
+      endpoint_path: /ts/predict
+      supports_streaming: false
+      produces_tokens: false
+      tokenizes_input: false
+      metrics_title: Time Series Metrics
 
 # =============================================================================
 # Transports
@@ -571,6 +583,13 @@ dataset_composer:
       Public dataset composer that loads benchmark datasets from remote sources
       (HuggingFace, URLs) using the plugin-registered public dataset loaders.
       Handles metadata-driven loader instantiation and turn finalization.
+
+  synthetic_rpt_ts:
+    class: aiperf.dataset.composer.synthetic_rpt_ts:SyntheticRPTTimeSeriesDatasetComposer
+    description: |
+      Synthetic dataset composer for SAP RPT time-series inference.
+      Generates /ts/predict payloads with configurable series count,
+      input length, forecast horizon, and batch size.
 
 # =============================================================================
 # Custom Dataset Loaders
@@ -676,6 +695,12 @@ custom_dataset_loader:
       Single-turn dataset loader supporting multi-modal data and client-side
       batching. Supports text, images, audio with optional timestamps or delays.
       Does NOT support multi-turn features.
+
+  rpt_ts:
+    class: aiperf.dataset.loader.rpt_ts:RPTTimeSeriesDatasetLoader
+    description: |
+      SAP RPT-TS JSONL request loader. Each line is one complete /ts/predict
+      request and is replayed verbatim through Turn.raw_payload.
 
   # ---------------------------------------------------------------------------
   # SPEED-Bench: qualitative split (all categories combined)
